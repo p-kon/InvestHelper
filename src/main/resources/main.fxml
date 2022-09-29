@@ -52,7 +52,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bfiController.BfiController">
+<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ihController.IHController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -88,7 +88,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About BFI App" />
+            <MenuItem mnemonicParsing="false" text="About App" />
           </items>
         </Menu>
       </menus>
@@ -105,7 +105,7 @@
                                  <content>
                                     <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="520.0" styleClass="anchorPaneBackground">
                                        <children>
-                                          <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="BFI app" textAlignment="CENTER" wrapText="false">
+                                          <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Invest Helper app" textAlignment="CENTER" wrapText="false">
                                              <font>
                                                 <Font size="18.0" fx:id="x111" />
                                              </font>

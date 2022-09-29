@@ -1,1 +1,4 @@
 /src/main/java/mainApp/JustForTests.java
+/target/*
+/src/main/resources/tableviewtest.fxml
+/src/main/java/ihController/TableviewtestController.java

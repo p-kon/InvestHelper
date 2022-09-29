@@ -1,13 +1,13 @@
-module BFI.app {
+module InvestHelper.app {
     requires javafx.controls;
-    requires org.jsoup;
     requires javafx.fxml;
+    requires org.jsoup;
     requires htmlunit;
     requires org.json;
 
-    opens bfiDataModel to javafx.base;
-    opens bfiController to javafx.fxml;
+    opens ihDataModel to javafx.base;
+    opens ihController to javafx.fxml;
 
     exports mainApp to javafx.controls, javafx.fxml, javafx.graphics;
-    exports bfiController to javafx.fxml;
+    exports ihController to javafx.fxml;
 }

@@ -1,6 +1,6 @@
-package bfiFileOperations;
+package ihFileOperations;
 
-import bfiDataModel.AktywoPL;
+import ihDataModel.AktywoPL;
 
 import java.io.BufferedWriter;
 import java.io.File;

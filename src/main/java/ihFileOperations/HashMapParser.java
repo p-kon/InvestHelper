@@ -1,7 +1,7 @@
-package bfiFileOperations;
+package ihFileOperations;
 
-import bfiDataModel.AktywoPL;
-import bfiparsery.*;
+import ihDataModel.AktywoPL;
+import ihparser_PL.*;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 

@@ -1,10 +1,16 @@
-package bfiDataModel;
+package ihDataModel;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AktywoUSA implements Serializable {
+
+    // webpages
+    private String webPage1_dividend;
+    private String webPage2_macrotrendsPE;
+    private String webPage3_macrotrendsPB;
+
 
     // seeking alpha symbols
     private String company;
@@ -18,14 +24,18 @@ public class AktywoUSA implements Serializable {
     // seeking alpha
     private double dy;
     private double dividend;
-    private byte yearsOfGrowth;
     private byte recordYears;
     private byte yearsWithZero;    //years where dividend was not paid
     private double fiveYearsGrowthRate;
     private double payoutRatio;
+    private double grossProfitMargin;
+
+    // dividend
+    private byte yearsOfGrowth;
+
+    // macrotrends
     private double pe;
     private double pb;
-    private double grossProfitMargin;
 
     //gurufocus
     private double roe;
@@ -42,12 +52,12 @@ public class AktywoUSA implements Serializable {
     private long netIncome;
     private long netIncome_2y;
     private long netIncome_3y;
-    private long revenues_y2y;
-    private long revenues_y2y_2y;
-    private long revenues_y2y_3y;
-    private long netIncome_y2y;
-    private long netIncome_y2y_2y;
-    private long netIncome_y2y_3y;
+    private double revenues_y2y;
+    private double revenues_y2y_2y;
+    private double revenues_y2y_3y;
+    private double netIncome_y2y;
+    private double netIncome_y2y_2y;
+    private double netIncome_y2y_3y;
     private int ebidta;
     private double ebidta_y2y;
 
@@ -271,51 +281,51 @@ public class AktywoUSA implements Serializable {
         this.netIncome_3y = netIncome_3y;
     }
 
-    public long getRevenues_y2y() {
+    public double getRevenues_y2y() {
         return revenues_y2y;
     }
 
-    public void setRevenues_y2y(long revenues_y2y) {
+    public void setRevenues_y2y(double revenues_y2y) {
         this.revenues_y2y = revenues_y2y;
     }
 
-    public long getRevenues_y2y_2y() {
+    public double getRevenues_y2y_2y() {
         return revenues_y2y_2y;
     }
 
-    public void setRevenues_y2y_2y(long revenues_y2y_2y) {
+    public void setRevenues_y2y_2y(double revenues_y2y_2y) {
         this.revenues_y2y_2y = revenues_y2y_2y;
     }
 
-    public long getRevenues_y2y_3y() {
+    public double getRevenues_y2y_3y() {
         return revenues_y2y_3y;
     }
 
-    public void setRevenues_y2y_3y(long revenues_y2y_3y) {
+    public void setRevenues_y2y_3y(double revenues_y2y_3y) {
         this.revenues_y2y_3y = revenues_y2y_3y;
     }
 
-    public long getNetIncome_y2y() {
+    public double getNetIncome_y2y() {
         return netIncome_y2y;
     }
 
-    public void setNetIncome_y2y(long netIncome_y2y) {
+    public void setNetIncome_y2y(double netIncome_y2y) {
         this.netIncome_y2y = netIncome_y2y;
     }
 
-    public long getNetIncome_y2y_2y() {
+    public double getNetIncome_y2y_2y() {
         return netIncome_y2y_2y;
     }
 
-    public void setNetIncome_y2y_2y(long netIncome_y2y_2y) {
+    public void setNetIncome_y2y_2y(double netIncome_y2y_2y) {
         this.netIncome_y2y_2y = netIncome_y2y_2y;
     }
 
-    public long getNetIncome_y2y_3y() {
+    public double getNetIncome_y2y_3y() {
         return netIncome_y2y_3y;
     }
 
-    public void setNetIncome_y2y_3y(long netIncome_y2y_3y) {
+    public void setNetIncome_y2y_3y(double netIncome_y2y_3y) {
         this.netIncome_y2y_3y = netIncome_y2y_3y;
     }
 
@@ -341,5 +351,25 @@ public class AktywoUSA implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getWebPage1_dividend() { return webPage1_dividend; }
+
+    public void setWebPage1_dividend(String webPage1_dividend) { this.webPage1_dividend = webPage1_dividend; }
+
+    public String getWebPage2_macrotrendsPE() {
+        return webPage2_macrotrendsPE;
+    }
+
+    public void setWebPage2_macrotrendsPE(String webPage2_macrotrendsPE) {
+        this.webPage2_macrotrendsPE = webPage2_macrotrendsPE;
+    }
+
+    public String getWebPage3_macrotrendsPB() {
+        return webPage3_macrotrendsPB;
+    }
+
+    public void setWebPage3_macrotrendsPB(String webPage3_macrotrendsPB) {
+        this.webPage3_macrotrendsPB = webPage3_macrotrendsPB;
     }
 }

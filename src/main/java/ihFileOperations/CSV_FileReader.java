@@ -1,4 +1,4 @@
-package bfiFileOperations;
+package ihFileOperations;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,7 +17,7 @@ public class CSV_FileReader {
 
         ArrayList arrayList = new ArrayList();
 
-        String readLine = null;
+        String readLine;
         while ((readLine = bufferedReader.readLine()) != null) {
             arrayList.add(readLine);
         }
