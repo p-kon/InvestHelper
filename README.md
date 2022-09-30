@@ -1,6 +1,6 @@
 # InvestHelper
 This tool helps to collect selected indicators, from a variety of sources (websites, api). 
-The data is returned in the form of a csv file, which is then imported into excel where the data is further analyzed. 
+The data is returned to the form of a csv file, which is then imported into excel where the data is further analyzed. 
 Currently working only for PL stocks.
 
 
