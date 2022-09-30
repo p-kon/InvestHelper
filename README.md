@@ -6,7 +6,8 @@ Currently working only for PL stocks.
 
 To do:
 	-> add USA market - almost finished,
-	-> add crypto,
-	-> refactoring - decide if US, PL and Crpyto have similar fields that can be separated into parent class (to use Inheritance/Polymorphism),
+	-> add ETF funds,
+	-> add EU market,
+	-> refactoring - decide if US, PL, ETF and EU have similar fields that can be separated into parent class (to use Inheritance/Polymorphism),
 	-> refactoring - add unit tests,
 	-> refactoring - add error management + create error log file.
