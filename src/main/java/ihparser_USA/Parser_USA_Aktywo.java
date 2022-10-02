@@ -10,16 +10,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.time.Year;
 import java.util.HashMap;
 
-public class Parser_SeekingAlphaBasic {
+public class Parser_USA_Aktywo {
 
     public static void UpdateAktywoUS(AktywoUSA aktywo) throws IOException {
 
+        System.out.println(aktywo.getTicker());
         setCompanyName_Id_Sector (aktywo);
         setMarketCap (aktywo);
         setMetricsFromApi(aktywo);
@@ -53,7 +53,7 @@ public class Parser_SeekingAlphaBasic {
 
         String market_cap_string = jsonObject.query("/real_time_quotes/0/market_cap").toString();
         long market_cap = Long.parseLong(market_cap_string);
-        aktywo.setMarketCap(market_cap);
+        aktywo.setMarketCap(market_cap/1000_000_000);
     }
 
     private static void setMetricsFromApi(AktywoUSA aktywo) throws IOException {
@@ -82,14 +82,21 @@ public class Parser_SeekingAlphaBasic {
                 hashMapIdAndValue.put(id.toString(),value.toString());
         });
 
-        double div_yield_fwd = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("div_yield_fwd")));
-        double div_rate_fwd = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("div_rate_fwd")));
+        String div_yield_fwd1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_yield_fwd"));
+            double div_yield_fwd = Double.parseDouble(div_yield_fwd1==null ? "0" : div_yield_fwd1);
+        String div_rate_fwd1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_rate_fwd"));
+            double div_rate_fwd = Double.parseDouble(div_rate_fwd1==null ? "0" : div_rate_fwd1);
         //byte dividend_growth = (byte) Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("dividend_growth")));
-        double div_grow_rate5 = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("div_yield_fwd")));
-        double payout_ratio = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("payout_ratio")));
+
+        String div_grow_rate51 = hashMapIdAndValue.get(hashMapNameAndID.get("div_grow_rate5"));
+            double div_grow_rate5 = Double.parseDouble(div_grow_rate51==null ? "0" : div_grow_rate51);
+        String payout_ratio1 = hashMapIdAndValue.get(hashMapNameAndID.get("payout_ratio"));
+            double payout_ratio = Double.parseDouble(payout_ratio1==null ? "0" : payout_ratio1);
         //double pe_nongaap_fy1 = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("pe_nongaap_fy1")));
         //double pb_fy1_ratio = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("pb_fy1_ratio")));
-        double gross_margin = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("gross_margin")));
+
+        String gross_margin1 = hashMapIdAndValue.get(hashMapNameAndID.get("gross_margin"));
+            double gross_margin = Double.parseDouble(gross_margin1==null ? "0" : gross_margin1);
 
         aktywo.setDy(div_yield_fwd);
         aktywo.setDividend(div_rate_fwd);
@@ -136,23 +143,23 @@ public class Parser_SeekingAlphaBasic {
 
         Document document = Jsoup.connect(address).get();
 
-        Element el_roe = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/ROE/]").parent().parent();
-            String roe = el_roe.selectFirst("span.p-l-sm").text();
+        Element el_roe = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/ROE/]");
+            String roe = (el_roe==null? "0" : el_roe.parent().parent().selectFirst("span.p-l-sm").text());
 
-        Element el_roa = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/ROA/]").parent().parent();
-            String roa = el_roa.selectFirst("span.p-l-sm").text();
+        Element el_roa = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/ROA/]");
+            String roa = (el_roa==null? "0" : el_roa.parent().parent().selectFirst("span.p-l-sm").text());
 
-        Element el_roic = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/ROIC/]").parent().parent();
-            String roic = el_roic.selectFirst("span.p-l-sm").text();
+        Element el_roic = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/ROIC/]");
+            String roic = (el_roic==null? "0" : el_roic.parent().parent().selectFirst("span.p-l-sm").text());
 
-        Element el_fscore = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/fscore/]").parent().parent();
-            String fscore = el_fscore.selectFirst("span.p-l-sm").text();
+        Element el_fscore = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/fscore/]");
+            String fscore = (el_fscore==null? "0" : el_fscore.parent().parent().selectFirst("span.p-l-sm").text().substring(0,1));
 
-        Element el_zscore = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/zscore/]").parent().parent();
-            String zscore = el_zscore.selectFirst("span.p-l-sm").text();
+        Element el_zscore = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/zscore/]");
+            String zscore = (el_zscore==null? "0" : el_zscore.parent().parent().selectFirst("span.p-l-sm").text());
 
-        Element el_netMargin = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/netmargin/]").parent().parent();
-            String netMargin = el_netMargin.selectFirst("span.p-l-sm").text();
+        Element el_netMargin = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/netmargin/]");
+            String netMargin = (el_netMargin==null? "0" : el_netMargin.parent().parent().selectFirst("span.p-l-sm").text());
 
         aktywo.setRoe(Double.parseDouble(roe));
         aktywo.setRoa(Double.parseDouble(roa));
@@ -177,54 +184,55 @@ public class Parser_SeekingAlphaBasic {
         int previous2Year = Year.now().getValue()-2;
         int previous3Year = Year.now().getValue()-3;
 
-        Elements revenues1yearBack = doc.selectFirst("rows value:matches(^Revenues$)").siblingElements().select("cells name:matches( " + previousYear + "$)").first().siblingElements();
-        Elements netIncomes1yearBack = doc.selectFirst("rows value:matches(^Net Income$)").siblingElements().select("cells name:matches( " + previousYear + "$)").first().siblingElements();
-        Elements ebidta1yearBack = doc.selectFirst("rows value:matches(^EBITDA$)").siblingElements().select("cells name:matches( " + previousYear + "$)").first().siblingElements();
+        Element revenues1yearBack = doc.selectFirst("rows:has(value:matches(^Total Revenues$)) cells:has(name:matches( " + previousYear + "$))");
+        Element netIncomes1yearBack = doc.selectFirst("rows:has(value:matches(^Net Income$)) cells:has(name:matches(" + previousYear + "$))");
+        Element ebidta1yearBack = doc.selectFirst("rows:has(value:matches(^EBITDA$)) cells:has(name:matches( " + previousYear + "$))");
 
-        Elements revenues2yearBack = doc.selectFirst("rows value:matches(^Revenues$)").siblingElements().select("cells name:matches( " + previous2Year + "$)").first().siblingElements();
-        Elements netIncomes2yearBack = doc.selectFirst("rows value:matches(^Net Income$)").siblingElements().select("cells name:matches( " + previous2Year + "$)").first().siblingElements();
-        //Elements ebidta2yearBack = doc.selectFirst("rows value:matches(^EBITDA$)").siblingElements().select("cells name:matches( " + previous2Year + "$)").first().siblingElements();
+        Element revenues2yearBack = doc.selectFirst("rows:has(value:matches(^Total Revenues$)) cells:has(name:matches( " + previous2Year + "$))");
+        Element netIncomes2yearBack = doc.selectFirst("rows:has(value:matches(^Net Income$)) cells:has(name:matches(" + previous2Year + "$))");
+        //Element ebidta2yearBack = doc.selectFirst("rows:has(value:matches(^EBITDA$)) cells:has(name:matches( " + previous2Year + "$))");
 
-        Elements revenues3yearBack = doc.selectFirst("rows value:matches(^Revenues$)").siblingElements().select("cells name:matches( " + previous3Year + "$)").first().siblingElements();
-        Elements netIncomes3yearBack = doc.selectFirst("rows value:matches(^Net Income$)").siblingElements().select("cells name:matches( " + previous3Year + "$)").first().siblingElements();
-        //Elements ebidta3yearBack = doc.selectFirst("rows value:matches(^EBITDA$)").siblingElements().select("cells name:matches( " + previous3Year + "$)").first().siblingElements();
+        Element revenues3yearBack = doc.selectFirst("rows:has(value:matches(^Total Revenues$)) cells:has(name:matches( " + previous3Year + "$))");
+        Element netIncomes3yearBack = doc.selectFirst("rows:has(value:matches(^Net Income$)) cells:has(name:matches(" + previous3Year + "$))");
+        //Element ebidta3yearBack = doc.selectFirst("rows:has(value:matches(^EBITDA$)) cells:has(name:matches( " + previous3Year + "$))");
 
-        String raw_value1r = revenues1yearBack.select("raw_value").text().replaceAll("[%()]","");
-        String raw_value2r = revenues2yearBack.select("raw_value").text().replaceAll("[%()]","");
-        String raw_value3r = revenues3yearBack.select("raw_value").text().replaceAll("[%()]","");
 
-        String raw_value1i = netIncomes1yearBack.select("raw_value").text().replaceAll("[%()]","");
-        String raw_value2i = netIncomes2yearBack.select("raw_value").text().replaceAll("[%()]","");
-        String raw_value3i = netIncomes3yearBack.select("raw_value").text().replaceAll("[%()]","");
+        String raw_value1r = revenues1yearBack==null ? "0" : revenues1yearBack.select("raw_value").text().replaceAll("[%()]|[.][0-9]+","");
+        String raw_value2r = revenues2yearBack==null ? "0" : revenues2yearBack.select("raw_value").text().replaceAll("[%()]|[.][0-9]+","");
+        String raw_value3r = revenues3yearBack==null ? "0" : revenues3yearBack.select("raw_value").text().replaceAll("[%()]|[.][0-9]+","");
 
-        String yoy_value1r = revenues1yearBack.select("yoy_value").text().replaceAll("[%()]","");
-        String yoy_value2r = revenues2yearBack.select("yoy_value").text().replaceAll("[%()]","");
-        String yoy_value3r = revenues3yearBack.select("yoy_value").text().replaceAll("[%()]","");
+        String raw_value1i = netIncomes1yearBack==null ? "0" : netIncomes1yearBack.select("raw_value").text().replaceAll("[%()]|[.][0-9]+","");
+        String raw_value2i = netIncomes2yearBack==null ? "0" : netIncomes2yearBack.select("raw_value").text().replaceAll("[%()]|[.][0-9]+","");
+        String raw_value3i = netIncomes3yearBack==null ? "0" : netIncomes3yearBack.select("raw_value").text().replaceAll("[%()]|[.][0-9]+","");
 
-        String yoy_value1i = netIncomes1yearBack.select("yoy_value").text().replaceAll("[%()]","");
-        String yoy_value2i = netIncomes2yearBack.select("yoy_value").text().replaceAll("[%()]","");
-        String yoy_value3i = netIncomes3yearBack.select("yoy_value").text().replaceAll("[%()]","");
+        String yoy_value1r = revenues1yearBack==null ? "0" : revenues1yearBack.select("yoy_value").text().replaceAll("[%(),]","");
+        String yoy_value2r = revenues2yearBack==null ? "0" : revenues2yearBack.select("yoy_value").text().replaceAll("[%(),]","");
+        String yoy_value3r = revenues3yearBack==null ? "0" : revenues3yearBack.select("yoy_value").text().replaceAll("[%(),]","");
 
-        String raw_value1e = ebidta1yearBack.select("raw_value").text().replaceAll("[%()]","");
-        String yoy_value1e = ebidta1yearBack.select("yoy_value").text().replaceAll("[%()]","");
+        String yoy_value1i = netIncomes1yearBack==null ? "0" : netIncomes1yearBack.select("yoy_value").text().replaceAll("[%(),]","");
+        String yoy_value2i = netIncomes2yearBack==null ? "0" : netIncomes2yearBack.select("yoy_value").text().replaceAll("[%(),]","");
+        String yoy_value3i = netIncomes3yearBack==null ? "0" : netIncomes3yearBack.select("yoy_value").text().replaceAll("[%(),]","");
 
-        aktywo.setRevenues(Long.parseLong(raw_value1r));
-        aktywo.setRevenues_2y(Long.parseLong(raw_value2r));
-        aktywo.setRevenues_3y(Long.parseLong(raw_value3r));
+        String raw_value1e = ebidta1yearBack==null ? "0" : ebidta1yearBack.select("raw_value").text().replaceAll("[%()]|(\\.0)","");
+        String yoy_value1e = ebidta1yearBack==null ? "0" : ebidta1yearBack.select("yoy_value").text().replaceAll("[%()]","");
 
-        aktywo.setNetIncome(Long.parseLong(raw_value1i));
-        aktywo.setNetIncome_2y(Long.parseLong(raw_value2i));
-        aktywo.setNetIncome_3y(Long.parseLong(raw_value3i));
+        aktywo.setRevenues(Long.parseLong(raw_value1r)/1000_000_000);
+        aktywo.setRevenues_2y(Long.parseLong(raw_value2r)/1000_000_000);
+        aktywo.setRevenues_3y(Long.parseLong(raw_value3r)/1000_000_000);
+
+        aktywo.setNetIncome(Long.parseLong(raw_value1i.equals("-") ? "0" : raw_value1i));
+        aktywo.setNetIncome_2y(Long.parseLong(raw_value2i.equals("-") ? "0" : raw_value2i));
+        aktywo.setNetIncome_3y(Long.parseLong(raw_value3i.equals("-") ? "0" : raw_value3i));
 
         aktywo.setRevenues_y2y(Double.parseDouble(yoy_value1r));
         aktywo.setRevenues_y2y_2y(Double.parseDouble(yoy_value2r));
         aktywo.setRevenues_y2y_3y(Double.parseDouble(yoy_value3r));
 
-        aktywo.setNetIncome_y2y(Double.parseDouble(yoy_value1i));
-        aktywo.setNetIncome_y2y_2y(Double.parseDouble(yoy_value2i));
-        aktywo.setNetIncome_y2y_3y(Double.parseDouble(yoy_value3i));
+        aktywo.setNetIncome_y2y(Double.parseDouble(yoy_value1i.equals("-") ? "0" : yoy_value1i));
+        aktywo.setNetIncome_y2y_2y(Double.parseDouble(yoy_value2i.equals("-") ? "0" : yoy_value2i));
+        aktywo.setNetIncome_y2y_3y(Double.parseDouble(yoy_value3i.equals("-") ? "0" : yoy_value3i));
 
-        aktywo.setEbidta(Integer.parseInt(raw_value1e));
+        aktywo.setEbidta(Long.parseLong(raw_value1e));
         aktywo.setEbidta_y2y(Double.parseDouble(yoy_value1e));
 
     }

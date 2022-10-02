@@ -1,7 +1,9 @@
 package ihFileOperations;
 
 import ihDataModel.AktywoPL;
+import ihDataModel.AktywoUSA;
 import ihparser_PL.*;
+import ihparser_USA.Parser_USA_Aktywo;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
@@ -44,6 +46,15 @@ public class HashMapParser {
             if (!aktywo.getWebpage7_bankierWladzeZatrudnienie().equals("x"))
                 Parser_BankierWladzaZatrudnienie.UpdateAktywo(aktywo);
 
+        }
+    }
+
+    public static void updateAktywaUSA(HashMap<String, AktywoUSA> hashMapAktywa) throws IOException {
+        Iterator<AktywoUSA> aktywoIterator = hashMapAktywa.values().iterator();
+
+        while (aktywoIterator.hasNext()) {
+            AktywoUSA aktywo = aktywoIterator.next();
+            Parser_USA_Aktywo.UpdateAktywoUS(aktywo);
         }
     }
 }

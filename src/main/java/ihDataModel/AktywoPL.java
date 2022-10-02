@@ -6,7 +6,7 @@ import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class AktywoPL implements Serializable {
+public class AktywoPL extends Aktywo implements Serializable {
     private static final long serialVersionUID = 20220502L;
     private String webPage1_bizRadarNotowania;
     private String webPage2_bizRadarRaporty;
@@ -17,10 +17,10 @@ public class AktywoPL implements Serializable {
     private String webpage7_bankierWladzeZatrudnienie;
     private String code;    //ticker
 
-    public AktywoPL(String webPage1_bizRadarNotowania, String webPage2_bizRadarRaporty,
+    public AktywoPL(String code, String webPage1_bizRadarNotowania, String webPage2_bizRadarRaporty,
                     String webPage3_bankierPopularnosc, String webPage4_bizRadarDywidendy,
                     String webPage5_bizRadarZadluzenie, String webpage6_bizRadarRentownosc,
-                    String webpage7_bankierWladzeZatrudnienie, String code) {
+                    String webpage7_bankierWladzeZatrudnienie) {
         this.code = code;
         this.webPage1_bizRadarNotowania = webPage1_bizRadarNotowania;
         this.webPage2_bizRadarRaporty = webPage2_bizRadarRaporty;
@@ -91,6 +91,7 @@ public class AktywoPL implements Serializable {
         return "code= " + code;
     }
 
+
     public static String toCSVStringHeaders() {
         return
                 "Company;" +
@@ -134,6 +135,7 @@ public class AktywoPL implements Serializable {
                 "Data";
     }
 
+    @Override
     public String toCSVString() {
         Double marza = (double) lastYearNetProfit/lastYearRevenue;
         String stringwithdots = companyName + ";" +

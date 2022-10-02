@@ -1,6 +1,6 @@
 package ihFileOperations;
 
-import ihDataModel.AktywoPL;
+import ihDataModel.Aktywo;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,21 +11,24 @@ import java.util.Iterator;
 
 public class CSV_FileWriter {
 
-    public static void HashMap2File(HashMap<String, AktywoPL> hashMap, String filePath, boolean createHeaders, String headers, boolean appendData) throws IOException {
+    public static void HashMapa(Aktywo akt) {
+
+    };
+    public static void HashMap2File(HashMap<String, ?> hashMap, String filePath, boolean createHeaders, String headers, boolean appendData) throws IOException {
 
         File file = new File(filePath);
         createFile(file);
 
-        Iterator<AktywoPL> aktywoPLIterator = hashMap.values().iterator();
+        Iterator<Aktywo> aktywoIterator = (Iterator<Aktywo>) hashMap.values().iterator();
         FileWriter fileWriter = new FileWriter(file, appendData);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
         if (createHeaders) {
-            bufferedWriter.write(AktywoPL.toCSVStringHeaders());
+            bufferedWriter.write(headers);
         }
 
-        while (aktywoPLIterator.hasNext()) {
-            AktywoPL aktywo = aktywoPLIterator.next();
+        while (aktywoIterator.hasNext()) {
+            Aktywo aktywo = aktywoIterator.next();
             bufferedWriter.newLine();
             bufferedWriter.write(aktywo.toCSVString());
         }

@@ -1,6 +1,7 @@
 package ihController;
 
 import ihDataModel.AktywoPL;
+import ihDataModel.AktywoUSA;
 import ihFileOperations.CSV_FileReader;
 import ihFileOperations.CSV_FileWriter;
 import ihFileOperations.HashMapFromArrayList;
@@ -11,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -33,6 +33,24 @@ public class IHController {
 
     @FXML
     private TextField daneFolderTextField;
+
+    @FXML
+    private Button etf_appButton;
+
+    @FXML
+    private TextField etf_daneFolderTextField;
+
+    @FXML
+    private TextField etf_historiaFolderTextField;
+
+    @FXML
+    private Button eu_appButton;
+
+    @FXML
+    private TextField eu_daneFolderTextField;
+
+    @FXML
+    private TextField eu_historiaFolderTextField;
 
     @FXML
     private Button generujButton;
@@ -59,52 +77,120 @@ public class IHController {
     private TextField loginFolderTextField;
 
     @FXML
-    private Label rightStatusLabel;
+    private Button mainAppFolderButton;
+
+    @FXML
+    private TextField mainFolderTextField;
+
+    @FXML
+    private TextField mainLinkiAktywaFolderTextField;
+
+    @FXML
+    private TextField mainLoginFolderTextField;
+
+    @FXML
+    private Button pl_appButton;
+
+    @FXML
+    private TextField pl_daneFolderTextField;
+
+    @FXML
+    private TextField pl_historiaFolderTextField;
 
     @FXML
     private ProgressBar progresProgressBar;
 
+    @FXML
+    private ProgressBar progresProgressBar1;
+
+    @FXML
+    private Label rightStatusLabel;
+
+    @FXML
+    private Button runAllButton;
+
+    @FXML
+    private Button us_appButton;
+
+    @FXML
+    private TextField us_daneFolderTextField;
+
+    @FXML
+    private TextField us_historiaFolderTextField;
+
+
+
+
 
     public void initialize() {
         configureButtons();
+        leftStatusLabel.setText("v 2.0");
     }
 
     private void configureButtons() {
 
-         setPathsToFiles("");
+        setPathsToFiles("");
 
-        appFolderButton.setOnAction(event -> {
+        mainAppFolderButton.setOnAction(event -> {
             DirectoryChooser dc = new DirectoryChooser();
             File file = dc.showDialog((new Stage()));
             try {
-                appFolderTextField.setText(file.getAbsolutePath());
                 setPathsToFiles(file.getAbsolutePath());
             } catch (Exception e) {
                 e.printStackTrace(); //ignore
             }
         });
 
-        linkiAktywaPLFolderButton.setOnAction(event -> updateFilePath(linkiAktywaPLFolderTextField));
-        loginFolderButton.setOnAction(event -> updateFilePath(loginFolderTextField));
-        daneFolderButton.setOnAction(event -> updateFilePath(daneFolderTextField));
-        historiaFolderButton.setOnAction(event -> updateFilePath(historiaFolderTextField));
+        pl_appButton.setOnAction(event -> {
 
-        generujButton.setOnAction(event -> {
-            progresProgressBar.setProgress(0.10);
             try {
-                ArrayList arrayList_Linki_AktywaPL = CSV_FileReader.LinesToArrayList(linkiAktywaPLFolderTextField.getText());
-                HashMap<String, AktywoPL> hashMap_AktywaPL = HashMapFromArrayList.hashMapLinkiAktywaPL(arrayList_Linki_AktywaPL);
+                ArrayList arrayList_Linki_Aktywa = CSV_FileReader.LinesToArrayList(mainLinkiAktywaFolderTextField.getText());
+                HashMap<String, AktywoPL> hashMap_Aktywa = HashMapFromArrayList.aktywaHashMapFromArrayList(arrayList_Linki_Aktywa,"PL");
 
-                ArrayList arrayList_Loginy = CSV_FileReader.LinesToArrayList(loginFolderTextField.getText());
-                HashMap<String, String[]> hashMap_Loginy = HashMapFromArrayList.hashMapLoginDetails(arrayList_Loginy);
+                ArrayList arrayList_Loginy = CSV_FileReader.LinesToArrayList(mainLoginFolderTextField.getText());
+                HashMap<String, String[]> hashMap_Loginy = HashMapFromArrayList.loginHashMapArrayList(arrayList_Loginy);
+
+                HashMapParser.updateAktywaPL(hashMap_Aktywa,hashMap_Loginy);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,pl_daneFolderTextField.getText(),true,AktywoPL.toCSVStringHeaders(),false);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,pl_historiaFolderTextField.getText(),false,"",true);
+
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                throw new RuntimeException(e);
+            }});
+
+        us_appButton.setOnAction(event -> {
+
+            try {
+                ArrayList arrayList_Linki_Aktywa = CSV_FileReader.LinesToArrayList(mainLinkiAktywaFolderTextField.getText());
+                HashMap<String, AktywoUSA> hashMap_Aktywa = HashMapFromArrayList.aktywaHashMapFromArrayList(arrayList_Linki_Aktywa,"US");
+
+                HashMapParser.updateAktywaUSA(hashMap_Aktywa);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,us_daneFolderTextField.getText(),true,AktywoUSA.toCSVStringHeaders(),false);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,us_historiaFolderTextField.getText(),false,"",true);
+
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                throw new RuntimeException(e);
+            }});
+
+        runAllButton.setOnAction(event -> {
+        //           progresProgressBar.setProgress(0.10);
+            try {
+                ArrayList arrayList_Linki_Aktywa = CSV_FileReader.LinesToArrayList(mainLinkiAktywaFolderTextField.getText());
+                HashMap<String, AktywoPL> hashMap_AktywaPL = HashMapFromArrayList.aktywaHashMapFromArrayList(arrayList_Linki_Aktywa,"PL");
+                HashMap<String, AktywoUSA> hashMap_AktywaUSA = HashMapFromArrayList.aktywaHashMapFromArrayList(arrayList_Linki_Aktywa,"US");
+
+                ArrayList arrayList_Loginy = CSV_FileReader.LinesToArrayList(mainLoginFolderTextField.getText());
+                    HashMap<String, String[]> hashMap_Loginy = HashMapFromArrayList.loginHashMapArrayList(arrayList_Loginy);
 
                 HashMapParser.updateAktywaPL(hashMap_AktywaPL,hashMap_Loginy);
-                    progresProgressBar.setProgress(0.50);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaPL,pl_daneFolderTextField.getText(),true,AktywoPL.toCSVStringHeaders(),false);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaPL,pl_historiaFolderTextField.getText(),false,"",true);
 
-                CSV_FileWriter.HashMap2File(hashMap_AktywaPL,daneFolderTextField.getText(),true,AktywoPL.toCSVStringHeaders(),false);
-
-                CSV_FileWriter.HashMap2File(hashMap_AktywaPL,historiaFolderTextField.getText(),false,"",true);
-                    progresProgressBar.setProgress(1.0);
+                HashMapParser.updateAktywaUSA(hashMap_AktywaUSA);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaUSA,us_daneFolderTextField.getText(),true,AktywoUSA.toCSVStringHeaders(),false);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaUSA,us_historiaFolderTextField.getText(),false,"",true);
 
         } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -112,33 +198,25 @@ public class IHController {
             }});
     }
 
-    private void updateFilePath(TextField txtField) {
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV", "*.csv"));
-            File file = fc.showOpenDialog(new Stage());
-            try {
-                txtField.setText(file.getAbsolutePath());
-            } catch (Exception e) {
-                e.printStackTrace(); //ignore
-            }
-    }
-
     private void setPathsToFiles(String basePath) {
-        String currentFolder;
+
+        String currentFolderPath;
+
         if (basePath == "")
-            currentFolder = System.getProperty("user.dir");
+            currentFolderPath = System.getProperty("user.dir");
         else
-            currentFolder = basePath;
+            currentFolderPath = basePath;
 
-        String linkiAktywaPLFilePath = currentFolder + "\\Settings\\Linki_aktywaPL.csv";
-        String loginFilePath = currentFolder + "\\Settings\\Login.csv";
-        String daneAktywaPLFilePath = currentFolder + "\\Data\\Dane_AktywaPL.csv";
-        String historiaAktywaPLFilePath = currentFolder + "\\Data\\Historia_AktywaPL.csv";
-
-        appFolderTextField.setText(currentFolder);
-        linkiAktywaPLFolderTextField.setText(linkiAktywaPLFilePath);
-        loginFolderTextField.setText(loginFilePath);
-        daneFolderTextField.setText(daneAktywaPLFilePath);
-        historiaFolderTextField.setText(historiaAktywaPLFilePath);
+        mainFolderTextField.setText(currentFolderPath);
+        mainLinkiAktywaFolderTextField.setText(currentFolderPath + "\\Settings\\Linki_aktywa.csv");
+        mainLoginFolderTextField.setText(currentFolderPath + "\\Settings\\Login.csv");
+        pl_daneFolderTextField.setText(currentFolderPath + "\\Data\\Dane_AktywaPL.csv");
+        pl_historiaFolderTextField.setText(currentFolderPath + "\\Data\\Historia_AktywaPL.csv");
+        us_daneFolderTextField.setText(currentFolderPath + "\\Data\\Dane_AktywaUS.csv");
+        us_historiaFolderTextField .setText(currentFolderPath + "\\Data\\Historia_AktywaUS.csv");
+        eu_daneFolderTextField.setText("");
+        eu_historiaFolderTextField.setText("");
+        etf_daneFolderTextField.setText("");
+        etf_historiaFolderTextField.setText("");
     }
 }

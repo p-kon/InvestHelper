@@ -1,2 +1,30 @@
 
+.button {
+    -fx-background-position: center;
+    -fx-border-color: grey;
+    -fx-border-width: 3;
+    -fx-border-radius: 5;
+
+    -fx-background-radius: 6;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 95% 95%;   /* contain lub stretch */
+}
+
+.button:hover {
+
+    -fx-text-fill: #444444;
+    -fx-font-size: 14;
+}
+
+#mainAppFolderButton:hover,#pl_appButton:hover,#us_appButton:hover,#eu_appButton:hover,#etf_appButton:hover {
+    -fx-background-image: none;
+}
+
+#mainAppFolderButton {    -fx-background-image: url("images/folder-flag.png")}
+#pl_appButton {    -fx-background-image: url("images/pl_flag.png")}
+#us_appButton {    -fx-background-image: url("images/us_flag.png")}
+#eu_appButton {    -fx-background-image: url("images/eu_flag_kopia.png")}
+#etf_appButton {    -fx-background-image: url("images/etf_flag.png")}
+
+
 

@@ -4,13 +4,19 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class AktywoUSA implements Serializable {
+public class AktywoUSA extends Aktywo implements Serializable {
+
+    public AktywoUSA (String ticker, String webpage_dividend, String webpage_macrotrendsPE, String webPage_macrotrendsPB) {
+        this.ticker = ticker;
+        this.webPage1_dividend = webpage_dividend;
+        this.webPage2_macrotrendsPE = webpage_macrotrendsPE;
+        this.webPage3_macrotrendsPB = webPage_macrotrendsPB;
+    }
 
     // webpages
     private String webPage1_dividend;
     private String webPage2_macrotrendsPE;
     private String webPage3_macrotrendsPB;
-
 
     // seeking alpha symbols
     private String company;
@@ -58,7 +64,7 @@ public class AktywoUSA implements Serializable {
     private double netIncome_y2y;
     private double netIncome_y2y_2y;
     private double netIncome_y2y_3y;
-    private int ebidta;
+    private long ebidta;
     private double ebidta_y2y;
 
     String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")).toString();
@@ -329,11 +335,11 @@ public class AktywoUSA implements Serializable {
         this.netIncome_y2y_3y = netIncome_y2y_3y;
     }
 
-    public int getEbidta() {
+    public long getEbidta() {
         return ebidta;
     }
 
-    public void setEbidta(int ebidta) {
+    public void setEbidta(long ebidta) {
         this.ebidta = ebidta;
     }
 
@@ -371,5 +377,84 @@ public class AktywoUSA implements Serializable {
 
     public void setWebPage3_macrotrendsPB(String webPage3_macrotrendsPB) {
         this.webPage3_macrotrendsPB = webPage3_macrotrendsPB;
+    }
+
+    public static String toCSVStringHeaders() {
+        return
+                "Company;" +
+                        "Ticker;" +
+                        "Sektor;" +
+                        "Kapitalizacja;" +
+                        "DY;" +
+                        "Dyw na akcje;" +
+                        "Years of growth;" +
+                        "Record years;" +
+                        "Years with 0;" +
+                        "5YDGR;" +
+                        "Payout Ratio;" +
+                        "PE (FWD);" +
+                        "P/B (FWD);" +
+                        "ROE;" +
+                        "ROA;" +
+                        "ROIC;" +
+                        "Piotroski F-Score;" +
+                        "Altman EM-Score;" +
+                        "Marża(Gross Profit Margin);" +
+                        "Marża zysku netto(Net margin);" +
+                        "Przychody ze sprzedaży;" +
+                        "Przychody ze sprzedaży (2 lata wstecz);" +
+                        "Przychody ze sprzedaży (3 lata wstecz);" +
+                        "Zysk Netto;" +
+                        "Zysk Netto  (2 lata wstecz);" +
+                        "Zysk Netto  (3 lata wstecz);" +
+                        "Przychody ze sprzedaży r/r;" +
+                        "Przychody ze sprzedaży r/r  (2 lata wstecz);" +
+                        "Przychody ze sprzedaży r/r  (3 lata wstecz);" +
+                        "Zysk Netto r/r;" +
+                        "Zysk Netto r/r  (2 lata wstecz);" +
+                        "Zysk Netto r/r  (3 lata wstecz);" +
+                        "EBIDTA;" +
+                        "EBITDA r/r;" +
+                        "Data";
+    }
+
+    @Override
+    public String toCSVString() {
+        String stringwithdots = company + ";" +
+                ticker + ";" +
+                sector + ";" +
+                marketCap + ";" +
+                dy+ ";" +
+                dividend + ";" +
+                yearsOfGrowth + ";" +
+                recordYears + ";" +
+                yearsWithZero + ";" +
+                fiveYearsGrowthRate + ";" +
+                payoutRatio + ";" +
+                pe + ";" +
+                pb + ";" +
+                roe+ ";" +
+                roa+ ";" +
+                roic+ ";" +
+                piotroskiFscore + ";" +
+                altmanZScore + ";" +
+                grossProfitMargin + ";" +
+                netMargin+ ";" +
+                revenues + ";" +
+                revenues_2y + ";" +
+                revenues_3y + ";" +
+                netIncome + ";" +
+                netIncome_2y + ";" +
+                netIncome_3y + ";" +
+                revenues_y2y+ ";" +
+                revenues_y2y_2y+ ";" +
+                revenues_y2y_3y+ ";" +
+                netIncome_y2y+ ";" +
+                netIncome_y2y_2y+ ";" +
+                netIncome_y2y_3y+ ";" +
+                ebidta + ";" +
+                ebidta_y2y+ ";";
+        String stringWithCommasInsteadOfDots = stringwithdots.replaceAll("[.]",",");
+        return stringWithCommasInsteadOfDots + date;
     }
 }
