@@ -20,10 +20,18 @@
     -fx-background-image: none;
 }
 
+/*Obraz <a href="https://pixabay.com/pl/users/memed_nurrohmad-3307648/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2013209"> Memed_Nurrohmad</a> z <a href="https://pixabay.com/pl//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2013209"> Pixabay</a>*/
 #mainAppFolderButton {    -fx-background-image: url("images/folder-flag.png")}
+
+/*Obraz <a href="https://pixabay.com/pl/users/openclipart-vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=162393"> OpenClipart-Vectors</a> z <a href="https://pixabay.com/pl//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=162393"> Pixabay</a>*/
 #pl_appButton {    -fx-background-image: url("images/pl_flag.png")}
+
+/*Obraz <a href="https://pixabay.com/pl/users/isakarakus-2336747/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2043285"> Isa KARAKUS</a> z <a href="https://pixabay.com/pl//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2043285"> Pixabay</a>*/
 #us_appButton {    -fx-background-image: url("images/us_flag.png")}
+
+/*Obraz <a href="https://pixabay.com/pl/users/iriusman-5366704/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2313980"> Rob Grant</a> z <a href="https://pixabay.com/pl//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2313980"> Pixabay</a>*/
 #eu_appButton {    -fx-background-image: url("images/eu_flag_kopia.png")}
+
 #etf_appButton {    -fx-background-image: url("images/etf_flag.png")}
 
 

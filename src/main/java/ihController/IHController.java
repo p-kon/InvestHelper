@@ -124,7 +124,7 @@ public class IHController {
 
     public void initialize() {
         configureButtons();
-        leftStatusLabel.setText("v 2.0");
+        leftStatusLabel.setText("v 2.1");
     }
 
     private void configureButtons() {
@@ -138,8 +138,7 @@ public class IHController {
                 setPathsToFiles(file.getAbsolutePath());
             } catch (Exception e) {
                 e.printStackTrace(); //ignore
-            }
-        });
+            }});
 
         pl_appButton.setOnAction(event -> {
 
@@ -157,7 +156,9 @@ public class IHController {
             } catch (IOException e) {
                 System.err.println(e.getMessage());
                 throw new RuntimeException(e);
-            }});
+            }
+            progresProgressBar1.setProgress(1.0);
+        });
 
         us_appButton.setOnAction(event -> {
 
@@ -172,7 +173,9 @@ public class IHController {
             } catch (IOException e) {
                 System.err.println(e.getMessage());
                 throw new RuntimeException(e);
-            }});
+            }
+            progresProgressBar1.setProgress(1.0);
+        });
 
         runAllButton.setOnAction(event -> {
         //           progresProgressBar.setProgress(0.10);
@@ -195,7 +198,9 @@ public class IHController {
         } catch (IOException e) {
                 System.err.println(e.getMessage());
                 throw new RuntimeException(e);
-            }});
+            }
+            progresProgressBar1.setProgress(1.0);
+        });
     }
 
     private void setPathsToFiles(String basePath) {

@@ -58,7 +58,7 @@ public class Parser_USA_Aktywo {
 
     private static void setMetricsFromApi(AktywoUSA aktywo) throws IOException {
         String ticker = aktywo.getTicker();
-        String adres = "https://seekingalpha.com/api/v3/metrics?filter[fields]=div_yield_fwd%2Cdiv_rate_fwd%2Cdividend_growth%2Cdiv_grow_rate5%2Cpayout_ratio%2Cpe_nongaap_fy1%2Cpb_fy1_ratio%2Cgross_margin%2C&filter[slugs]=" + ticker;
+        String adres = "https://seekingalpha.com/api/v3/metrics?filter[fields]=div_rate_ttm%2Cdiv_yield_fwd%2Cdiv_rate_fwd%2Cdividend_growth%2Cdiv_grow_rate5%2Cpayout_ratio%2Cpe_nongaap_fy1%2Cpb_fy1_ratio%2Cgross_margin%2C&filter[slugs]=" + ticker;
 
         JSONObject jsonObject = createJsonObjectFromAdres(adres);
         JSONArray jsArrayIncluded = jsonObject.getJSONArray("included");
@@ -86,6 +86,8 @@ public class Parser_USA_Aktywo {
             double div_yield_fwd = Double.parseDouble(div_yield_fwd1==null ? "0" : div_yield_fwd1);
         String div_rate_fwd1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_rate_fwd"));
             double div_rate_fwd = Double.parseDouble(div_rate_fwd1==null ? "0" : div_rate_fwd1);
+        String div_rate_ttm1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_rate_ttm"));
+            double div_rate_ttm = Double.parseDouble(div_rate_ttm1==null ? "0" : div_rate_ttm1);
         //byte dividend_growth = (byte) Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("dividend_growth")));
 
         String div_grow_rate51 = hashMapIdAndValue.get(hashMapNameAndID.get("div_grow_rate5"));
@@ -99,7 +101,7 @@ public class Parser_USA_Aktywo {
             double gross_margin = Double.parseDouble(gross_margin1==null ? "0" : gross_margin1);
 
         aktywo.setDy(div_yield_fwd);
-        aktywo.setDividend(div_rate_fwd);
+        aktywo.setDividend( div_rate_fwd==0 ? div_rate_ttm : div_rate_fwd);
         //aktywo.setYearsOfGrowth(dividend_growth);
         aktywo.setFiveYearsGrowthRate(div_grow_rate5);
         aktywo.setPayoutRatio(payout_ratio);
@@ -125,14 +127,14 @@ public class Parser_USA_Aktywo {
         String addressPE = aktywo.getWebPage2_macrotrendsPE();
         Document documentPE = Jsoup.connect(addressPE).get();
         Element elementPE = documentPE.selectFirst("div#main_content div p strong");
-        Double payoutRatio =    Double.parseDouble( elementPE.text() );
+        Double payoutRatio =    Double.parseDouble( elementPE==null ? "0" : elementPE.text() );
 
         aktywo.setPe(payoutRatio);
 
         String addressPB = aktywo.getWebPage3_macrotrendsPB();
         Document documentPB = Jsoup.connect(addressPB).get();
         Element elementPB = documentPB.selectFirst("div#main_content div p strong");
-        Double payoutBookRatio = Double.parseDouble( elementPB.text() );
+        Double payoutBookRatio = Double.parseDouble( elementPB==null ? "0" :  elementPB.text() );
 
         aktywo.setPb(payoutBookRatio);
     }
