@@ -25,7 +25,7 @@ public class AktywoUSA extends Aktywo implements Serializable {
     private String id;
 
     // seeking alpha real time quotes
-    private long marketCap;     //zaokr do mld $
+    private double marketCap;     //zaokr do mld $
 
     // seeking alpha
     private double dy;
@@ -103,11 +103,11 @@ public class AktywoUSA extends Aktywo implements Serializable {
         this.id = id;
     }
 
-    public long getMarketCap() {
+    public double getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(long marketCap) {
+    public void setMarketCap(double marketCap) {
         this.marketCap = marketCap;
     }
 

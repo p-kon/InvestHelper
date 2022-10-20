@@ -52,7 +52,7 @@ public class Parser_USA_Aktywo {
         JSONObject jsonObject = createJsonObjectFromAdres(adres);
 
         String market_cap_string = jsonObject.query("/real_time_quotes/0/market_cap").toString();
-        long market_cap = Long.parseLong(market_cap_string);
+        double market_cap = Double.parseDouble(market_cap_string);
         aktywo.setMarketCap(market_cap/1000_000_000);
     }
 
@@ -83,22 +83,22 @@ public class Parser_USA_Aktywo {
         });
 
         String div_yield_fwd1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_yield_fwd"));
-            double div_yield_fwd = Double.parseDouble(div_yield_fwd1==null ? "0" : div_yield_fwd1);
+            double div_yield_fwd = div_yield_fwd1==null ? 0 : Double.parseDouble(div_yield_fwd1)/100;
         String div_rate_fwd1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_rate_fwd"));
-            double div_rate_fwd = Double.parseDouble(div_rate_fwd1==null ? "0" : div_rate_fwd1);
+            double div_rate_fwd = div_rate_fwd1==null ? 0 : Double.parseDouble(div_rate_fwd1);
         String div_rate_ttm1 = hashMapIdAndValue.get(hashMapNameAndID.get("div_rate_ttm"));
-            double div_rate_ttm = Double.parseDouble(div_rate_ttm1==null ? "0" : div_rate_ttm1);
+            double div_rate_ttm = div_rate_ttm1==null ? 0 : Double.parseDouble(div_rate_ttm1);
         //byte dividend_growth = (byte) Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("dividend_growth")));
 
         String div_grow_rate51 = hashMapIdAndValue.get(hashMapNameAndID.get("div_grow_rate5"));
-            double div_grow_rate5 = Double.parseDouble(div_grow_rate51==null ? "0" : div_grow_rate51);
+            double div_grow_rate5 = div_grow_rate51==null ? 0 : Double.parseDouble(div_grow_rate51)/100;
         String payout_ratio1 = hashMapIdAndValue.get(hashMapNameAndID.get("payout_ratio"));
-            double payout_ratio = Double.parseDouble(payout_ratio1==null ? "0" : payout_ratio1);
+            double payout_ratio = Double.parseDouble(payout_ratio1==null ? "0" : payout_ratio1)/100;
         //double pe_nongaap_fy1 = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("pe_nongaap_fy1")));
         //double pb_fy1_ratio = Double.parseDouble(hashMapIdAndValue.get(hashMapNameAndID.get("pb_fy1_ratio")));
 
         String gross_margin1 = hashMapIdAndValue.get(hashMapNameAndID.get("gross_margin"));
-            double gross_margin = Double.parseDouble(gross_margin1==null ? "0" : gross_margin1);
+            double gross_margin = gross_margin1==null ? 0 : Double.parseDouble(gross_margin1)/100;
 
         aktywo.setDy(div_yield_fwd);
         aktywo.setDividend( div_rate_fwd==0 ? div_rate_ttm : div_rate_fwd);
@@ -116,7 +116,10 @@ public class Parser_USA_Aktywo {
 
         String adress = aktywo.getWebPage1_dividend();
         Document document = Jsoup.connect(adress).get();
-        Element element = document.selectFirst("div.t-flex:containsOwn(Years of Dividend Increase)").parent().selectFirst("div.t-leading-snug");
+        Element element = document
+                .selectFirst("div.t-flex:containsOwn(Years of Dividend Increase)")
+                .parent()
+                .selectFirst("div.t-leading-snug");
         byte yearsOfGrowth = Byte.parseByte(element.text().split(" ")[0]);
 
         aktywo.setYearsOfGrowth(yearsOfGrowth);
@@ -163,12 +166,12 @@ public class Parser_USA_Aktywo {
         Element el_netMargin = document.selectFirst("tr.stock-indicators-table-row a[href*=/term/netmargin/]");
             String netMargin = (el_netMargin==null? "0" : el_netMargin.parent().parent().selectFirst("span.p-l-sm").text());
 
-        aktywo.setRoe(Double.parseDouble(roe));
-        aktywo.setRoa(Double.parseDouble(roa));
-        aktywo.setRoic(Double.parseDouble(roic));
+        aktywo.setRoe(Double.parseDouble(roe)/100);
+        aktywo.setRoa(Double.parseDouble(roa)/100);
+        aktywo.setRoic(Double.parseDouble(roic)/100);
         aktywo.setPiotroskiFscore(Byte.parseByte(fscore));
         aktywo.setAltmanZScore(Double.parseDouble(zscore));
-        aktywo.setNetMargin(Double.parseDouble(fscore));
+        aktywo.setNetMargin(Double.parseDouble(netMargin)/100);
     }
 
     private static void setIncomeStatement(AktywoUSA aktywo) throws IOException {
@@ -226,16 +229,16 @@ public class Parser_USA_Aktywo {
         aktywo.setNetIncome_2y(Long.parseLong(raw_value2i.equals("-") ? "0" : raw_value2i));
         aktywo.setNetIncome_3y(Long.parseLong(raw_value3i.equals("-") ? "0" : raw_value3i));
 
-        aktywo.setRevenues_y2y(Double.parseDouble(yoy_value1r));
-        aktywo.setRevenues_y2y_2y(Double.parseDouble(yoy_value2r));
-        aktywo.setRevenues_y2y_3y(Double.parseDouble(yoy_value3r));
+        aktywo.setRevenues_y2y(Double.parseDouble(yoy_value1r)/100);
+        aktywo.setRevenues_y2y_2y(Double.parseDouble(yoy_value2r)/100);
+        aktywo.setRevenues_y2y_3y(Double.parseDouble(yoy_value3r)/100);
 
-        aktywo.setNetIncome_y2y(Double.parseDouble(yoy_value1i.equals("-") ? "0" : yoy_value1i));
-        aktywo.setNetIncome_y2y_2y(Double.parseDouble(yoy_value2i.equals("-") ? "0" : yoy_value2i));
-        aktywo.setNetIncome_y2y_3y(Double.parseDouble(yoy_value3i.equals("-") ? "0" : yoy_value3i));
+        aktywo.setNetIncome_y2y(Double.parseDouble(yoy_value1i.equals("-") ? "0" : yoy_value1i)/100);
+        aktywo.setNetIncome_y2y_2y(Double.parseDouble(yoy_value2i.equals("-") ? "0" : yoy_value2i)/100);
+        aktywo.setNetIncome_y2y_3y(Double.parseDouble(yoy_value3i.equals("-") ? "0" : yoy_value3i)/100);
 
-        aktywo.setEbidta(Long.parseLong(raw_value1e));
-        aktywo.setEbidta_y2y(Double.parseDouble(yoy_value1e));
+        aktywo.setEbidta(Long.parseLong(raw_value1e)/1_000_000);
+        aktywo.setEbidta_y2y(Double.parseDouble(yoy_value1e)/100);
 
     }
 

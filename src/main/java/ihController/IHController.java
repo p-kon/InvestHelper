@@ -124,7 +124,7 @@ public class IHController {
 
     public void initialize() {
         configureButtons();
-        leftStatusLabel.setText("v 2.1");
+        leftStatusLabel.setText("v 2.3");
     }
 
     private void configureButtons() {
@@ -150,8 +150,8 @@ public class IHController {
                 HashMap<String, String[]> hashMap_Loginy = HashMapFromArrayList.loginHashMapArrayList(arrayList_Loginy);
 
                 HashMapParser.updateAktywaPL(hashMap_Aktywa,hashMap_Loginy);
-                CSV_FileWriter.HashMap2File(hashMap_Aktywa,pl_daneFolderTextField.getText(),true,AktywoPL.toCSVStringHeaders(),false);
-                CSV_FileWriter.HashMap2File(hashMap_Aktywa,pl_historiaFolderTextField.getText(),false,"",true);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,pl_daneFolderTextField.getText(),AktywoPL.toCSVStringHeaders(),false);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,pl_historiaFolderTextField.getText(),AktywoPL.toCSVStringHeaders(),true);
 
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -167,8 +167,8 @@ public class IHController {
                 HashMap<String, AktywoUSA> hashMap_Aktywa = HashMapFromArrayList.aktywaHashMapFromArrayList(arrayList_Linki_Aktywa,"US");
 
                 HashMapParser.updateAktywaUSA(hashMap_Aktywa);
-                CSV_FileWriter.HashMap2File(hashMap_Aktywa,us_daneFolderTextField.getText(),true,AktywoUSA.toCSVStringHeaders(),false);
-                CSV_FileWriter.HashMap2File(hashMap_Aktywa,us_historiaFolderTextField.getText(),false,"",true);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,us_daneFolderTextField.getText(),AktywoUSA.toCSVStringHeaders(),false);
+                CSV_FileWriter.HashMap2File(hashMap_Aktywa,us_historiaFolderTextField.getText(),AktywoUSA.toCSVStringHeaders(),true);
 
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -188,12 +188,12 @@ public class IHController {
                     HashMap<String, String[]> hashMap_Loginy = HashMapFromArrayList.loginHashMapArrayList(arrayList_Loginy);
 
                 HashMapParser.updateAktywaPL(hashMap_AktywaPL,hashMap_Loginy);
-                    CSV_FileWriter.HashMap2File(hashMap_AktywaPL,pl_daneFolderTextField.getText(),true,AktywoPL.toCSVStringHeaders(),false);
-                    CSV_FileWriter.HashMap2File(hashMap_AktywaPL,pl_historiaFolderTextField.getText(),false,"",true);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaPL,pl_daneFolderTextField.getText(),AktywoPL.toCSVStringHeaders(),false);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaPL,pl_historiaFolderTextField.getText(),AktywoPL.toCSVStringHeaders(),true);
 
                 HashMapParser.updateAktywaUSA(hashMap_AktywaUSA);
-                    CSV_FileWriter.HashMap2File(hashMap_AktywaUSA,us_daneFolderTextField.getText(),true,AktywoUSA.toCSVStringHeaders(),false);
-                    CSV_FileWriter.HashMap2File(hashMap_AktywaUSA,us_historiaFolderTextField.getText(),false,"",true);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaUSA,us_daneFolderTextField.getText(),AktywoUSA.toCSVStringHeaders(),false);
+                    CSV_FileWriter.HashMap2File(hashMap_AktywaUSA,us_historiaFolderTextField.getText(),AktywoUSA.toCSVStringHeaders(),true);
 
         } catch (IOException e) {
                 System.err.println(e.getMessage());

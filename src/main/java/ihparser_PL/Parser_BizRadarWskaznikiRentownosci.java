@@ -27,7 +27,7 @@ public class Parser_BizRadarWskaznikiRentownosci {
                 bizRadtable.selectFirst("tr:contains(Marża zysku ze sprzedaży)").selectFirst("td.h.newest span.value").text().replaceAll("%", "")
             )/100);
 
-        System.out.println(aktywo.getCode());
+
 
         Element roic = bizRadtable.selectFirst("tr:contains(ROIC)").selectFirst("td.h.newest span.value");
         if (roic != null)

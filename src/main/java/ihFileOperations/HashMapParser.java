@@ -36,6 +36,7 @@ public class HashMapParser {
 
         while (aktywoPLIterator.hasNext()) {
             AktywoPL aktywo = aktywoPLIterator.next();
+            System.out.println(aktywo.getCode());
             Parser_BizRadarNotowania.UpdateAktywo(aktywo);
             Parser_BizRadarRaportyNew.UpdateAktywo(aktywo);
             Parser_Bankier.UpdateAktywo(aktywo);
